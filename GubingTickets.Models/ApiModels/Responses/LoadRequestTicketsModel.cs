@@ -14,5 +14,8 @@ namespace GubingTickets.Models.ApiModels.Responses
 
         [DataMember]
         public EventDetail Event { get; set; }
+
+        [DataMember]
+        public IEnumerable<EventTicketLevel> TicketLevels { get; set; }
     }
 }

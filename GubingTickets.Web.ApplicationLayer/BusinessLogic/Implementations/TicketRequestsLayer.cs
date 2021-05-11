@@ -40,10 +40,16 @@ namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations
                     if (ticketSalesUsers == null || !ticketSalesUsers.Any())
                         return ResponseCode.DataNotFound.GetFailureResponse<LoadRequestTicketsModel>($"{(ticketSalesUsers == null? "Failed to load ticket sales users.":"No available ticket sales users.")}");
 
+                    IEnumerable<EventTicketLevel> ticketLevels = await _TicketRequestsDataLayer.GetEventTicketLevels(eventId);
+
+                    if (ticketLevels == null || !ticketLevels.Any())
+                        return ResponseCode.DataNotFound.GetFailureResponse<LoadRequestTicketsModel>($"{(ticketSalesUsers == null ? "Failed to load ticket levels ." : "No available ticket levels.")}");
+
                     LoadRequestTicketsModel response = new LoadRequestTicketsModel
                     {
                         Event = eventDetails,
-                        Users = ticketSalesUsers
+                        Users = ticketSalesUsers,
+                        TicketLevels = ticketLevels
                     };
 
                     return response.GetSuccessResponse();

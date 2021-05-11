@@ -6,7 +6,6 @@ using GubingTickets.DataAccessLayer.Implementations;
 using GubingTickets.DataAccessLayer.Interfaces;
 using GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations;
 using GubingTickets.Web.ApplicationLayer.BusinessLogic.Interfaces;
-using GubingTickets.DataAccessLayer.Cache;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +15,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
+using GubingTickets.Utilities.Cache;
+using GubingTickets.DataAccessLayer.Utils.ConnectionFactory;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace GubingTickets.Web.Api
 {
@@ -37,7 +38,8 @@ namespace GubingTickets.Web.Api
             services.AddSingleton<ITicketRequestsDataLayer, TicketRequestsDataLayer>();
             services.AddSingleton<ITicketRequestsLayer, TicketRequestsLayer>();
             services.AddSingleton<ICachingLayer, CachingLayer>();
-            
+            services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,10 +55,17 @@ namespace GubingTickets.Web.Api
             app.UseMvc();
             app.UseStaticFiles();
 
+            app.UseCors(ConfigureCors);
+
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Gubing Tickets API");
             });
+        }
+
+        private void ConfigureCors(CorsPolicyBuilder corsPolicy)
+        {
+            corsPolicy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
         }
     }
 }

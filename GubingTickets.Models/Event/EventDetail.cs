@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace GubingTickets.Models.Event
 {
@@ -15,6 +13,9 @@ namespace GubingTickets.Models.Event
         public string EventName { get; set; }
 
         [DataMember]
+        public string EventDescription { get; set; }
+
+        [DataMember]
         public string EventLocation { get; set; }
 
         [DataMember]
@@ -24,10 +25,16 @@ namespace GubingTickets.Models.Event
         public DateTime? EventEndDateTime { get; set; }
 
         [DataMember]
+        public DateTime SalesActiveFromDateTime { get; set; }
+
+        [DataMember]
+        public DateTime SalesActiveToDateTime { get; set; }
+
+        [DataMember]
         public string EventLogo { get; set; }
 
         [DataMember]
-        public IEnumerable<string> TicketLevels { get; set; }
+        public bool IsActive { get; set; }
 
         [DataMember]
         public byte[] EventLogoBytes { get; set; }

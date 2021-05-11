@@ -12,5 +12,7 @@ namespace GubingTickets.DataAccessLayer.Interfaces
         Task<IEnumerable<TicketSalesUser>> GetTicketSalesUsers(int eventId);
 
         Task<EventDetail> GetEventDetails(int eventId);
+
+        Task<IEnumerable<EventTicketLevel>> GetEventTicketLevels(int eventDetailId);
     }
 }

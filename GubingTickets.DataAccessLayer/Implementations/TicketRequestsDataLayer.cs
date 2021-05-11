@@ -14,25 +14,33 @@ namespace GubingTickets.DataAccessLayer.Implementations
     {
         private readonly IDbConnectionFactory _DbConnectionFactory;
         private readonly ICachingLayer _CachingLayer;
-        public TicketRequestsDataLayer(ICachingLayer cachingLayer, IDbConnectionFactory connectionFactory)
+        public TicketRequestsDataLayer(IDbConnectionFactory connectionFactory)
         {
             _DbConnectionFactory = connectionFactory;
-            _CachingLayer = cachingLayer;
+            //_CachingLayer = cachingLayer;
         }
 
-        public async Task<EventDetail> GetEventDetails(int gubingEventId)
+        public async Task<EventDetail> GetEventDetails(int eventDetailId)
         {
             using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
             {
-                return await connection.QueryFirstOrDefaultAsync<EventDetail>("dbo.up_GetEventDetails", new { gubingEventId }, commandType: CommandType.StoredProcedure);
+                return await connection.QueryFirstOrDefaultAsync<EventDetail>("dbo.up_GetEventDetails", new { eventDetailId }, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public async Task<IEnumerable<TicketSalesUser>> GetTicketSalesUsers(int gubingEventId)
+        public async Task<IEnumerable<TicketSalesUser>> GetTicketSalesUsers(int eventDetailId)
         {
             using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
             {
-                return await connection.QueryAsync<TicketSalesUser>("dbo.up_GetTicketSalesUsers", new { gubingEventId }, commandType: CommandType.StoredProcedure);
+                return await connection.QueryAsync<TicketSalesUser>("dbo.up_GetTicketSalesUsers", new { eventDetailId }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public async Task<IEnumerable<EventTicketLevel>> GetEventTicketLevels(int eventDetailId)
+        {
+            using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
+            {
+                return await connection.QueryAsync<EventTicketLevel>("dbo.up_GetEventTicketLevels", new { eventDetailId }, commandType: CommandType.StoredProcedure);
             }
         }
     }

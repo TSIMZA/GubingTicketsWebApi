@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GubingTickets.Models\GubingTickets.Models.csproj" />
+    <ProjectReference Include="..\GubingTickets.Utilities\GubingTickets.Utilities.csproj" />
     <ProjectReference Include="..\GubingTickets.Web.ApplicationLayer\GubingTickets.Web.ApplicationLayer.csproj" />
   </ItemGroup>
 

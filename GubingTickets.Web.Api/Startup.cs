@@ -50,12 +50,12 @@ namespace GubingTickets.Web.Api
                 app.UseDeveloperExceptionPage();
             }
 
-
-            app.UseHttpsRedirection();
             app.UseMvc();
             app.UseStaticFiles();
 
             app.UseCors(ConfigureCors);
+
+            app.UseHttpsRedirection();
 
             app.Run(async (context) =>
             {

@@ -21,6 +21,15 @@ namespace GubingTickets.Models.ApiModels
         public string LastName { get; set; }
 
         [DataMember]
-        public string UserName => $"{FirstName} {LastName}";
+        public string UserName {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+            set
+            {
+
+            }
+        }
     }
 }

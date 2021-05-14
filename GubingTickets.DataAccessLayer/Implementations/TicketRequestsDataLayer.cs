@@ -17,7 +17,6 @@ namespace GubingTickets.DataAccessLayer.Implementations
         public TicketRequestsDataLayer(IDbConnectionFactory connectionFactory)
         {
             _DbConnectionFactory = connectionFactory;
-            //_CachingLayer = cachingLayer;
         }
 
         public async Task<EventDetail> GetEventDetails(int eventDetailId)

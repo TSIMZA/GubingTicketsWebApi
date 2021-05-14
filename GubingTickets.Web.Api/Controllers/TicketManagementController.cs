@@ -9,12 +9,12 @@ namespace GubingTickets.Web.Api.Controllers
 {
     [ApiController]
     [Route("v1/[controller]")]
-    public class TicketRequestsController : BaseController
+    public class TicketManagementController : BaseController
     {
 
         private readonly ITicketRequestsLayer _TicketRequestsLayer;
 
-        public TicketRequestsController(ITicketRequestsLayer ticketRequestsLayer):base()
+        public TicketManagementController(ITicketRequestsLayer ticketRequestsLayer):base()
         {
             _TicketRequestsLayer = ticketRequestsLayer;
         }

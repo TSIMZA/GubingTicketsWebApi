@@ -9,6 +9,9 @@ namespace GubingTickets.Models.Event
         public byte[] Barcode { get; set; }
 
         [DataMember]
+        public int EventTicketLevelId { get; set; }
+
+        [DataMember]
         public string TicketLevel { get; set; }
 
         [DataMember]

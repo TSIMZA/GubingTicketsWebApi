@@ -8,6 +8,6 @@ namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Interfaces
     public interface ITicketRequestsLayer
     {
         Task<BaseResponse<LoadRequestTicketsModel>> LoadEventTicketsData(int eventId);
-        Task<BaseResponse<string>> RequestEventTickets(TicketsRequest request);
+        Task<BaseResponse<PurchaseTicketsResponse>> PurchaseEventTickets(PurchaseTicketsRequest request);
     }
 }

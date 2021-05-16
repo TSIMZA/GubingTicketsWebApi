@@ -7,6 +7,9 @@ using Dapper;
 using GubingTickets.DataAccessLayer.Utils.Cache;
 using System.Data;
 using GubingTickets.DataAccessLayer.Utils.ConnectionFactory;
+using GubingTickets.Models.ApiModels.Requests;
+using GubingTickets.DataAccessLayer.Extensions;
+using System;
 
 namespace GubingTickets.DataAccessLayer.Implementations
 {
@@ -40,6 +43,24 @@ namespace GubingTickets.DataAccessLayer.Implementations
             using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
             {
                 return await connection.QueryAsync<EventTicketLevel>("dbo.up_GetEventTicketLevels", new { eventDetailId }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public async Task<Guid> PurhcaseEventTickets(PurchaseTicketsRequest request, IEnumerable<TicketLevelDto> ticketLevels, string eventTicketReference)
+        {
+            DynamicParameters parameters = ticketLevels.GetDynamicParameters("RequestedTickets", "TVP_RequestTicket");
+            parameters.Add("@EventDetailId", request.EventId);
+            parameters.Add("@FirstName", request.FirstName);
+            parameters.Add("@LastName", request.LastName);
+            parameters.Add("@MobileNumber", request.MobileNumber);
+            parameters.Add("@EmailAddress", request.EmailAddress);
+            parameters.Add("@NoOfTickets", request.NumberOfTickets);
+            parameters.Add("@EventTicketReference", eventTicketReference);
+            parameters.Add("@SalesUserId", request.UserId);
+
+            using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
+            {
+                return await connection.QueryFirstAsync<Guid>("dbo.up_PurchaseTickets", parameters , commandType: CommandType.StoredProcedure);
             }
         }
     }

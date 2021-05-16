@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace GubingTickets.Models.Barcode
+namespace GubingTickets.Utilities.Barcode
 {
     public class RendererColor
     {

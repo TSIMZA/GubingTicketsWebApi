@@ -7,19 +7,19 @@ using System.Text;
 namespace GubingTickets.Models.ApiModels.Requests
 {
     [DataContract]
-    public class TicketsRequest
+    public class PurchaseTicketsRequest
     {
         [DataMember]
         public int EventId { get; set; }
 
         [DataMember]
-        public string firstName { get; set; }
+        public string FirstName { get; set; }
 
         [DataMember]
-        public string lastName { get; set; }
+        public string LastName { get; set; }
 
         [DataMember]
-        public string mobileNumber { get; set; }
+        public string MobileNumber { get; set; }
 
         [DataMember]
         public string EmailAddress { get; set; }
@@ -28,7 +28,13 @@ namespace GubingTickets.Models.ApiModels.Requests
         public int NumberOfTickets { get; set; }
 
         [DataMember]
-        public IEnumerable<TicketDetail> TicketDetails { get; set; }
+        public Guid UserId { get; set; }
+
+        [DataMember]
+        public string Password { get; set; }
+
+        [DataMember]
+        public int[] TicketLevels { get; set; }
 
     }
 }

@@ -1,11 +1,10 @@
-﻿using GubingTickets.Models.Barcode;
-using System;
+﻿using System;
 using ZXing;
 using ZXing.Common;
 using ZXing.OneD;
 using ZXing.Rendering;
 
-namespace GubingTickets.Models.Barcode
+namespace GubingTickets.Utilities.Barcode
 {
     public class SvgBarcodeRenderer : IBarcodeRenderer<SvgBarcodeImage>
     {

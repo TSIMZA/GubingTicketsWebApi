@@ -27,10 +27,10 @@ namespace GubingTickets.Web.Api.Controllers
         }
 
         [HttpPost]
-        [Route("RequestEventTickets")]
-        public async Task<IActionResult> RequestEventTickets([FromBody][Required(ErrorMessage ="Invalid Request")]TicketsRequest request)
+        [Route("PurchaseEventTickets")]
+        public async Task<IActionResult> PurchaseEventTickets([FromBody][Required(ErrorMessage ="Invalid Request")]PurchaseTicketsRequest request)
         {
-            return await RequestHandler(async () => await _TicketRequestsLayer.RequestEventTickets(request));
+            return await RequestHandler(async () => await _TicketRequestsLayer.PurchaseEventTickets(request));
         }
     }
 }

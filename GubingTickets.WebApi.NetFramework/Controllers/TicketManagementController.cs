@@ -16,6 +16,7 @@ using System.Web.Http;
 
 namespace GubingTickets.WebApi.NetFramework.Controllers
 {
+
     public class TicketManagementController : BaseController
     {
         private readonly ITicketRequestsLayer _TicketRequestsLayer;
@@ -33,10 +34,10 @@ namespace GubingTickets.WebApi.NetFramework.Controllers
         }
 
         [HttpPost]
-        [Route("RequestEventTickets")]
-        public async Task<HttpResponseMessage> RequestEventTickets([FromBody][Required(ErrorMessage = "Invalid Request")]TicketsRequest request)
+        [Route("PurchaseEventTickets")]
+        public async Task<HttpResponseMessage> PurchaseEventTickets([FromBody][Required(ErrorMessage = "Invalid Request")]PurchaseTicketsRequest request)
         {
-            return await RequestHandler(async () => await _TicketRequestsLayer.RequestEventTickets(request), Request);
+            return await RequestHandler(async () => await _TicketRequestsLayer.PurchaseEventTickets(request), Request);
         }
     }
 }

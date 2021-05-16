@@ -1,5 +1,4 @@
-﻿using GubingTickets.Models.Barcode;
-using ZXing;
+﻿using ZXing;
 
 namespace GubingTickets.Utilities.Barcode
 {

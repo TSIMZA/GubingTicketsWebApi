@@ -5,7 +5,7 @@ using ZXing;
 using ZXing.Common;
 using ZXing.Rendering;
 
-namespace GubingTickets.Models.Barcode
+namespace GubingTickets.Utilities.Barcode
 {
     public class PixelBarcodeRenderer : IBarcodeRenderer<PixelBarcodeImage>
     {

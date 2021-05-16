@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GubingTickets.Models\GubingTickets.Models.csproj" />
+    <ProjectReference Include="..\GubingTickets.Utilities\GubingTickets.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

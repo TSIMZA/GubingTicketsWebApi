@@ -1,5 +1,4 @@
-﻿using GubingTickets.Models.Barcode;
-using GubingTickets.Models.Enums;
+﻿using GubingTickets.Models.Enums;
 using GubingTickets.Models.Event;
 using GubingTickets.Utilities.Barcode;
 using System;
@@ -51,7 +50,7 @@ namespace GubingTickets.ConsoleService
             IGubingBarcode barcode = new GubingBarcode();
             List<TicketDetail> ticketDetails = new List<TicketDetail>();
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 8; i++)
             {
 
                 BarcodeImage barcodeImage = barcode.Encode($"G{eventDetail.EventIdString} {RandomString(6)}",
@@ -59,8 +58,8 @@ namespace GubingTickets.ConsoleService
                     {
                         BarcodeType = BarcodeType.QRCode,
                         ImageFormat = ImageFormat.Png,
-                        Height = 130,
-                        Width = 130,
+                        Height = 125,
+                        Width = 125,
                         Margin = 0,
                         ErrorCorrection = ErrorCorrection.H,
                         //BaseImagesPath = $@"C:\Users\tsimy\Desktop\",
@@ -80,7 +79,7 @@ namespace GubingTickets.ConsoleService
 
             }
 
-            TicketFileHelper.PrintTickets($"TickeSample_{DateTime.Now.ToString("MMddyyyyhhmmsstt")}", GetGubingTickets(), ticketDetails, eventDetail, patron);
+            TicketFileHelper.GenerateTickets("fdfdfdf",$"TickeSample_{DateTime.Now.ToString("MMddyyyyhhmmsstt")}", GetGubingTickets(), ticketDetails, eventDetail, patron);
 
             Console.WriteLine("Done");
 

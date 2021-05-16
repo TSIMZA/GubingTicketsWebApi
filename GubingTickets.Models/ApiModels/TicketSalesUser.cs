@@ -24,7 +24,7 @@ namespace GubingTickets.Models.ApiModels
         public string UserName {
             get
             {
-                return $"{FirstName} {LastName}";
+                return $"{FirstName}";
             }
             set
             {

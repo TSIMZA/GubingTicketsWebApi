@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using ZXing.QrCode.Internal;
 
-namespace GubingTickets.Models.Extensions
+namespace GubingTickets.Utilities.Extensions
 {
     public static class ErrorCorrectionExtensions
     {

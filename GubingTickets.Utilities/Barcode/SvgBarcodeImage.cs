@@ -1,10 +1,10 @@
-﻿using GubingTickets.Models.Extensions;
+﻿using GubingTickets.Utilities.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace GubingTickets.Models.Barcode
+namespace GubingTickets.Utilities.Barcode
 {
     public class SvgBarcodeImage
     {

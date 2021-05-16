@@ -11,41 +11,50 @@ using System.Web.Http;
 
 namespace GubingTickets.WebApi.NetFramework.Controllers.Base
 {
-    public abstract class BaseController: ApiController
+    public abstract class BaseController : ApiController
     {
         public BaseController()
         {
 
         }
 
-        protected async Task<HttpResponseMessage> RequestHandler<T>(Func<Task<BaseResponse<T>>> func, HttpRequestMessage httpRequestMessage,  string modelStateErrorMessage = "Invalid request.")
+        protected async Task<HttpResponseMessage> RequestHandler<T>(Func<Task<BaseResponse<T>>> func, HttpRequestMessage httpRequestMessage, string modelStateErrorMessage = "Invalid request.")
         {
             try
             {
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    return new ResponseDetail
+                    return new BaseResponse
                     {
-                        ResponseCode = ResponseCode.InvalidModel,
-                        ResonseMessage = modelStateErrorMessage
-                    }.GetHttpResponseMessage(httpRequestMessage, HttpStatusCode.BadRequest);
+                        Success = false,
+                        ResponseDetail = new ResponseDetail
+                        {
+                            ResponseCode = ResponseCode.InvalidModel,
+                            ResonseMessage = modelStateErrorMessage
+                        }
+                    }
+                    .GetHttpResponseMessage(httpRequestMessage, HttpStatusCode.BadRequest);
                 }
 
                 BaseResponse<T> response = await func();
 
-                if(!response.Success)
+                if (!response.Success)
                 {
-                    return response.ResponseDetail.GetHttpResponseMessage(httpRequestMessage, HttpStatusCode.BadRequest);
+                    return response.GetHttpResponseMessage(httpRequestMessage, HttpStatusCode.BadRequest);
                 }
 
                 return response.GetHttpResponseMessage(httpRequestMessage, HttpStatusCode.OK);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return new ResponseDetail
+                return new BaseResponse
                 {
-                    ResponseCode = ResponseCode.InvalidModel,
-                    ResonseMessage = $"Unexpected error {ex.GetType().Name}"
+                    Success = false,
+                    ResponseDetail = new ResponseDetail
+                    {
+                        ResponseCode = ResponseCode.UnknownError,
+                        ResonseMessage = $"Unexpected error {ex.GetType().Name}"
+                    }
                 }.GetHttpResponseMessage(httpRequestMessage, HttpStatusCode.BadRequest);
             }
         }

@@ -1,9 +1,9 @@
-﻿using GubingTickets.Models.Barcode;
+﻿using GubingTickets.Utilities.Barcode;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GubingTickets.Models.Extensions
+namespace GubingTickets.Utilities.Extensions
 {
     internal static class RendererColorExtensions
     {

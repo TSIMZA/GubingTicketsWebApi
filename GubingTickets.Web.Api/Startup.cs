@@ -40,6 +40,8 @@ namespace GubingTickets.Web.Api
             services.AddSingleton<ICachingLayer, CachingLayer>();
             services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
 
+            services.AddCors(SetupCors);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +65,10 @@ namespace GubingTickets.Web.Api
             });
         }
 
+
+        private void SetupCors(CorsOptions corsOptions)
+        {
+        }
         private void ConfigureCors(CorsPolicyBuilder corsPolicy)
         {
             corsPolicy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();

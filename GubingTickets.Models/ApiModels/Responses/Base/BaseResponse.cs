@@ -13,7 +13,7 @@ namespace GubingTickets.Models.ApiModels.Responses.Base
             ResponseDetail = new ResponseDetail
             {
                 ResponseCode = ResponseCode.UnknownError,
-                ResonseMessage = string.Empty
+                ResponseMessage = string.Empty
             };
         }
 

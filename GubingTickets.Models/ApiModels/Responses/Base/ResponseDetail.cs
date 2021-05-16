@@ -13,6 +13,6 @@ namespace GubingTickets.Models.ApiModels.Responses.Base
         public ResponseCode ResponseCode { get; set; }
 
         [DataMember]
-        public string ResonseMessage { get; set; }
+        public string ResponseMessage { get; set; }
     }
 }

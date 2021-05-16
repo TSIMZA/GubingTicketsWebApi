@@ -30,7 +30,7 @@ namespace GubingTickets.WebApi.NetFramework.Controllers.Base
                         ResponseDetail = new ResponseDetail
                         {
                             ResponseCode = ResponseCode.InvalidModel,
-                            ResonseMessage = modelStateErrorMessage
+                            ResponseMessage = modelStateErrorMessage
                         }
                     }
                     .GetHttpResponseMessage(httpRequestMessage, HttpStatusCode.BadRequest);
@@ -53,7 +53,7 @@ namespace GubingTickets.WebApi.NetFramework.Controllers.Base
                     ResponseDetail = new ResponseDetail
                     {
                         ResponseCode = ResponseCode.UnknownError,
-                        ResonseMessage = $"Unexpected error {ex.GetType().Name}"
+                        ResponseMessage = $"Unexpected error {ex.GetType().Name}"
                     }
                 }.GetHttpResponseMessage(httpRequestMessage, HttpStatusCode.BadRequest);
             }

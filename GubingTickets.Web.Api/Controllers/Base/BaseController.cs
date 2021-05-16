@@ -24,7 +24,7 @@ namespace GubingTickets.Web.Api.Controllers.Base
                     return BadRequest(new ResponseDetail
                     {
                         ResponseCode = ResponseCode.InvalidModel,
-                        ResonseMessage = modelStateErrorMessage
+                        ResponseMessage = modelStateErrorMessage
                     });
                 }
 
@@ -42,7 +42,7 @@ namespace GubingTickets.Web.Api.Controllers.Base
                 return BadRequest(new ResponseDetail
                 {
                     ResponseCode = ResponseCode.InvalidModel,
-                    ResonseMessage = $"Unexpected error {ex.GetType().Name}"
+                    ResponseMessage = $"Unexpected error {ex.GetType().Name}"
                 });
             }
         }

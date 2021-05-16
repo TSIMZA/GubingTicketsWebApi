@@ -9,8 +9,10 @@ namespace GubingTickets.Models.ApiModels.Responses.Enums
         UnknownError=0,
         Success=1,
         DataNotFound = 2,
+        SalesUserNotFound = 3,
+        InvalidPassword = 4,
 
-        SqlException=254,
+        SqlException =254,
         InvalidModel=255
     }
 }

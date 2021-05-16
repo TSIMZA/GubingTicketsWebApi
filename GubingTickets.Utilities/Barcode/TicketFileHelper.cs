@@ -20,7 +20,7 @@ namespace GubingTickets.Utilities.Barcode
             FileInfo fileInfo = new FileInfo(AppDomain.CurrentDomain.BaseDirectory);
             DirectoryInfo parentDir = fileInfo.Directory.Parent;
 
-            string eventParentDirectory = $"{parentDir.FullName}\\EventTickets\\{eventDetail.EventId}\\";
+            string eventParentDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}\\EventTickets\\{eventDetail.EventId}\\";
             if (!Directory.Exists(eventParentDirectory))
             {
                 Directory.CreateDirectory(eventParentDirectory);

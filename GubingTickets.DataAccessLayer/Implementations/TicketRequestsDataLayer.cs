@@ -30,6 +30,14 @@ namespace GubingTickets.DataAccessLayer.Implementations
             }
         }
 
+        public async Task<TicketSalesUser> GetTicketSalesUserById(Guid salesUserId)
+        {
+            using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<TicketSalesUser>("dbo.up_GetTicketSalesUserById", new { salesUserId }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
         public async Task<IEnumerable<TicketSalesUser>> GetTicketSalesUsers(int eventDetailId)
         {
             using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())

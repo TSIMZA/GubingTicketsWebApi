@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GubingTickets.Utilities.Extensions;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations
 {
@@ -71,6 +72,15 @@ namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations
             {
                 try
                 {
+
+                    TicketSalesUser salesUser = await _TicketRequestsDataLayer.GetTicketSalesUserById(request.UserId);
+
+                    if (salesUser == null)
+                        return ResponseCode.SalesUserNotFound.GetFailureResponse<PurchaseTicketsResponse>($"Invalid User or Password.");
+
+                    if (!salesUser.Password.Equals(request.Password))
+                        return ResponseCode.InvalidPassword.GetFailureResponse<PurchaseTicketsResponse>($"Invalid User or Password.");
+
                     EventDetail eventDetail = await _TicketRequestsDataLayer.GetEventDetails(request.EventId);
 
                     if (eventDetail == null)
@@ -147,7 +157,7 @@ namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations
                 }
                 catch (Exception ex)
                 {
-                    return ResponseCode.UnknownError.GetFailureResponse<PurchaseTicketsResponse>($"Unexpected error when purchasing tickets. {ex.GetType()}]");
+                    return ResponseCode.UnknownError.GetFailureResponse<PurchaseTicketsResponse>($"Unexpected error.");
                 }
             });
         }

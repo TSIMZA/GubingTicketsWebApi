@@ -14,7 +14,7 @@ namespace GubingTickets.Web.ApplicationLayer.Extensions
                 ResponseDetail = new ResponseDetail
                 {
                     ResponseCode = ResponseCode.Success,
-                    ResonseMessage = string.IsNullOrWhiteSpace(responseMessage) ? "Success" : responseMessage
+                    ResponseMessage = string.IsNullOrWhiteSpace(responseMessage) ? "Success" : responseMessage
                 }
             };
         }
@@ -29,7 +29,7 @@ namespace GubingTickets.Web.ApplicationLayer.Extensions
                 ResponseDetail = new ResponseDetail
                 {
                     ResponseCode = responseCode,
-                    ResonseMessage = string.IsNullOrWhiteSpace(responseMessage) ? "Unknown error." : responseMessage
+                    ResponseMessage = string.IsNullOrWhiteSpace(responseMessage) ? "Unknown error." : responseMessage
                 }
             };
         }

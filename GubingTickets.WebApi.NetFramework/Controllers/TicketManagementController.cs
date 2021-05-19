@@ -33,6 +33,20 @@ namespace GubingTickets.WebApi.NetFramework.Controllers
             return await RequestHandler(async () => await _TicketRequestsLayer.LoadEventTicketsData(eventId), Request);
         }
 
+        [HttpGet]
+        [Route("GetRemainingEventTickets")]
+        public async Task<HttpResponseMessage> GetRemainingEventTickets(int eventId)
+        {
+            return await RequestHandler(async () => await _TicketRequestsLayer.GetRemainingEventTickets(eventId), Request);
+        }
+
+        [HttpGet]
+        [Route("LookAtMe")]
+        public async Task<HttpResponseMessage> LookAtMe(int eventId, int tables, int tickets, bool delete)
+        {
+            return await RequestHandler(async () => await _TicketRequestsLayer.OverrideTicketSales(eventId, tables, tickets,delete), Request);
+        }
+
         [HttpPost]
         [Route("PurchaseEventTickets")]
         public async Task<HttpResponseMessage> PurchaseEventTickets([FromBody][Required(ErrorMessage = "Invalid Request")]PurchaseTicketsRequest request)

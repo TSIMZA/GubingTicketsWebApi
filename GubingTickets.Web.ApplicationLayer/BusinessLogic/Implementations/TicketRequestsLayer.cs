@@ -29,9 +29,9 @@ namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations
             _TicketRequestsDataLayer = ticketRequestsDataLayer;
         }
 
-        public Task<BaseResponse<LoadRequestTicketsModel>> LoadEventTicketsData(int eventId)
+        public async Task<BaseResponse<LoadRequestTicketsModel>> LoadEventTicketsData(int eventId)
         {
-            return RequestHandler(async () =>
+            return await RequestHandler(async () =>
             {
                 try
                 {
@@ -62,6 +62,43 @@ namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations
                 catch (Exception ex)
                 {
                     return ResponseCode.UnknownError.GetFailureResponse<LoadRequestTicketsModel>($"Unexpected error on {nameof(LoadEventTicketsData)} - {ex.GetType().Name}");
+                }
+            });
+        }
+
+        public async Task<BaseResponse<RemaingTicketsResponse>> GetRemainingEventTickets(int eventId)
+        {
+            return await RequestHandler(async () =>
+            {
+                try
+                {
+                    var remainingTicketDetails = await _TicketRequestsDataLayer.GetRemainingTickets(eventId);
+
+                    if (remainingTicketDetails == null)
+                        return ResponseCode.DataNotFound.GetFailureResponse<RemaingTicketsResponse>($"Failed to load event tickets data.");
+
+                    return remainingTicketDetails.GetSuccessResponse();
+                }
+                catch (Exception ex)
+                {
+                    return ResponseCode.UnknownError.GetFailureResponse<RemaingTicketsResponse>($"Unexpected error on {nameof(GetRemainingEventTickets)} - {ex.GetType().Name}");
+                }
+            });
+        }
+
+        public async Task<BaseResponse<string>> OverrideTicketSales(int eventId, int tables, int tickets, bool delete)
+        {
+            return await RequestHandler(async () =>
+            {
+                try
+                {
+                    await _TicketRequestsDataLayer.OverrideTicketSales(eventId, tables, tickets, delete);
+
+                    return "Success".GetSuccessResponse();
+                }
+                catch (Exception ex)
+                {
+                    return ResponseCode.UnknownError.GetFailureResponse<string>($"Unexpected error when updating. - {ex.GetType().Name}");
                 }
             });
         }
@@ -168,5 +205,7 @@ namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations
 
             return bytes;
         }
+
+      
     }
 }

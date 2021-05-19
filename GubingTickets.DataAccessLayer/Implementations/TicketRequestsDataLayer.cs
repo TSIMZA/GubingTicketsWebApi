@@ -10,6 +10,7 @@ using GubingTickets.DataAccessLayer.Utils.ConnectionFactory;
 using GubingTickets.Models.ApiModels.Requests;
 using GubingTickets.DataAccessLayer.Extensions;
 using System;
+using GubingTickets.Models.ApiModels.Responses;
 
 namespace GubingTickets.DataAccessLayer.Implementations
 {
@@ -69,6 +70,22 @@ namespace GubingTickets.DataAccessLayer.Implementations
             using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
             {
                 return await connection.QueryFirstAsync<Guid>("dbo.up_PurchaseTickets", parameters , commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public async Task<RemaingTicketsResponse> GetRemainingTickets(int eventDetailId)
+        {
+            using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<RemaingTicketsResponse>("dbo.up_GetRemainingTickets", new { eventDetailId }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public async Task OverrideTicketSales(int eventDetailId, int tables, int tickets, bool delete)
+        {
+            using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
+            {
+                await connection.QueryAsync("dbo.up_OverrideTicketSales", new { eventDetailId, tables, tickets, delete }, commandType: CommandType.StoredProcedure);
             }
         }
     }

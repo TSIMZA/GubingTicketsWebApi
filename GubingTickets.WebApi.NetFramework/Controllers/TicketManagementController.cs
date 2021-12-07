@@ -41,6 +41,13 @@ namespace GubingTickets.WebApi.NetFramework.Controllers
         }
 
         [HttpGet]
+        [Route("ValidateTicket")]
+        public async Task<HttpResponseMessage> ValidateTicket([FromBody][Required(ErrorMessage = "Invalid Request")] ValidateTicketRequest request)
+        {
+            return await RequestHandler(async () => await _TicketRequestsLayer.ValidateTicket(request), Request);
+        }
+
+        [HttpGet]
         [Route("LookAtMe")]
         public async Task<HttpResponseMessage> LookAtMe(int eventId, int tables, int tickets, bool delete)
         {

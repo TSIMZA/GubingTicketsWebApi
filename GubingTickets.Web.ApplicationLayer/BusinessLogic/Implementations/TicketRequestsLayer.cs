@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using GubingTickets.Utilities.Extensions;
 using System.IO;
 using Newtonsoft.Json;
+using GubingTickets.Models.Gifts;
+using System.Data.SqlClient;
 
 namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations
 {
@@ -27,6 +29,45 @@ namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations
         public TicketRequestsLayer(ITicketRequestsDataLayer ticketRequestsDataLayer) : base()
         {
             _TicketRequestsDataLayer = ticketRequestsDataLayer;
+        }
+
+
+        public async Task<BaseResponse<IEnumerable<GiftItem>>> GetReservedGiftItems()
+        {
+            return await RequestHandler(async () =>
+            {
+                try
+                {
+                    var remainingTicketDetails = await _TicketRequestsDataLayer.GetReservedGiftItems();
+
+                    return remainingTicketDetails.GetSuccessResponse();
+                }
+                catch (Exception ex)
+                {
+                    return ResponseCode.UnknownError.GetFailureResponse<IEnumerable<GiftItem>>($"Error when loading");
+                }
+            });
+        }
+
+        public async Task<BaseResponse<IEnumerable<GiftItem>>> ReserveGiftItem(GiftRegItemReserve giftRegItemReserve)
+        {
+            return await RequestHandler(async () =>
+            {
+                try
+                {
+                    var remainingTicketDetails = await _TicketRequestsDataLayer.ReserveGiftItem(giftRegItemReserve);
+
+                    return remainingTicketDetails.GetSuccessResponse();
+                }
+                catch (SqlException ex) when (ex.Number == 2627)
+                {
+                    return ResponseCode.UnknownError.GetFailureResponse<IEnumerable<GiftItem>>($"Gift already reserved");
+                }
+                catch (Exception ex)
+                {
+                    return ResponseCode.UnknownError.GetFailureResponse<IEnumerable<GiftItem>>($"Error when reserving gift");
+                }
+            });
         }
 
         public async Task<BaseResponse<LoadRequestTicketsModel>> LoadEventTicketsData(int eventId)
@@ -82,6 +123,38 @@ namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations
                 catch (Exception ex)
                 {
                     return ResponseCode.UnknownError.GetFailureResponse<RemaingTicketsResponse>($"Unexpected error on {nameof(GetRemainingEventTickets)} - {ex.GetType().Name}");
+                }
+            });
+        }
+
+        public async Task<BaseResponse<ValidCodeResponse>> ValidateTicket(ValidateTicketRequest request)
+        {
+            return await RequestHandler(async () =>
+            {
+                try
+                {
+                    TicketSalesUser salesUser = await _TicketRequestsDataLayer.GetTicketSalesUserById(request.UserId);
+
+                    if (salesUser == null)
+                        return ResponseCode.SalesUserNotFound.GetFailureResponse<ValidCodeResponse>($"Invalid User or Password.");
+
+                    if (!salesUser.Password.Equals(request.Password))
+                        return ResponseCode.InvalidPassword.GetFailureResponse<ValidCodeResponse>($"Invalid User or Password.");
+
+
+                    ValidCodeResponse validCodeResponse = await _TicketRequestsDataLayer.ValidateTicket(request.EventId, request.TicketCode, request.UserId);
+
+                    if (validCodeResponse == null)
+                        return ResponseCode.TicketCodeDoesNotExist.GetFailureResponse<ValidCodeResponse>($"Failed to check.");
+
+                    if(validCodeResponse.IsAlreadyScanned)
+                        return ResponseCode.TicketValidationFailed.GetFailureResponse<ValidCodeResponse>($"Ticket ref {(request.TicketCode)} already used.");
+
+                    return validCodeResponse.GetSuccessResponse();
+                }
+                catch (Exception ex)
+                {
+                    return ResponseCode.UnknownError.GetFailureResponse<ValidCodeResponse>($"Unexpected error on {nameof(ValidateTicket)} - {ex.GetType().Name}");
                 }
             });
         }
@@ -206,6 +279,6 @@ namespace GubingTickets.Web.ApplicationLayer.BusinessLogic.Implementations
             return bytes;
         }
 
-      
+       
     }
 }

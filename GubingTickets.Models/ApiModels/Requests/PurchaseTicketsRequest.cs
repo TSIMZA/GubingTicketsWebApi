@@ -1,13 +1,9 @@
-﻿using GubingTickets.Models.Event;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
+﻿using System.Runtime.Serialization;
 
 namespace GubingTickets.Models.ApiModels.Requests
 {
     [DataContract]
-    public class PurchaseTicketsRequest
+    public class PurchaseTicketsRequest: BaseUserRequest
     {
         [DataMember]
         public int EventId { get; set; }
@@ -26,12 +22,6 @@ namespace GubingTickets.Models.ApiModels.Requests
 
         [DataMember]
         public int NumberOfTickets { get; set; }
-
-        [DataMember]
-        public Guid UserId { get; set; }
-
-        [DataMember]
-        public string Password { get; set; }
 
         [DataMember]
         public int[] TicketLevels { get; set; }

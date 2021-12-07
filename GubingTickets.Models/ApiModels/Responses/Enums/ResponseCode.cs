@@ -12,6 +12,9 @@ namespace GubingTickets.Models.ApiModels.Responses.Enums
         SalesUserNotFound = 3,
         InvalidPassword = 4,
 
+        TicketCodeDoesNotExist = 5,
+        TicketValidationFailed = 6,
+
         SqlException =254,
         InvalidModel=255
     }

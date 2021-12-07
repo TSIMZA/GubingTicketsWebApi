@@ -11,6 +11,7 @@ using GubingTickets.Models.ApiModels.Requests;
 using GubingTickets.DataAccessLayer.Extensions;
 using System;
 using GubingTickets.Models.ApiModels.Responses;
+using GubingTickets.Models.Gifts;
 
 namespace GubingTickets.DataAccessLayer.Implementations
 {
@@ -21,6 +22,26 @@ namespace GubingTickets.DataAccessLayer.Implementations
         public TicketRequestsDataLayer(IDbConnectionFactory connectionFactory)
         {
             _DbConnectionFactory = connectionFactory;
+        }
+
+        public async Task<IEnumerable<GiftItem>> GetReservedGiftItems()
+        {
+            using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
+            {
+                return await connection.QueryAsync<GiftItem>("dbo.up_Get_All_Gifts", commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public async Task<IEnumerable<GiftItem>> ReserveGiftItem(GiftRegItemReserve giftRegItemReserve)
+        {
+            using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
+            {
+                return await connection.QueryAsync<GiftItem>("dbo.up_Reserve_Gift", 
+                    new {
+                        giftRegItemReserve.itemId,
+                        giftRegItemReserve.reservedById
+                    }, commandType: CommandType.StoredProcedure);
+            }
         }
 
         public async Task<EventDetail> GetEventDetails(int eventDetailId)
@@ -52,6 +73,15 @@ namespace GubingTickets.DataAccessLayer.Implementations
             using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
             {
                 return await connection.QueryAsync<EventTicketLevel>("dbo.up_GetEventTicketLevels", new { eventDetailId }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+
+        public async Task<ValidCodeResponse> ValidateTicket(int eventDetailId, string ticketCode, Guid userId)
+        {
+            using (IDbConnection connection = _DbConnectionFactory.GetDbConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<ValidCodeResponse>("dbo.up_ValidateTicket", new { eventDetailId, ticketCode, userId }, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -88,5 +118,6 @@ namespace GubingTickets.DataAccessLayer.Implementations
                 await connection.QueryAsync("dbo.up_OverrideTicketSales", new { eventDetailId, tables, tickets, delete }, commandType: CommandType.StoredProcedure);
             }
         }
+
     }
 }
